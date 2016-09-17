@@ -1,32 +1,30 @@
 import time
-import grovepi
 import mraa
 
+from flask import Flask, url_for, send_from_directory
+
+app = Flask(__name__)
+
+@app.route("/")
+def sound():
+	pot = mraa.Aio(0)
+	potVal = pot.read()
+	potVal2 = potVal / 1024.0
+	return str(potVal2)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80)
 
 # Connect the Grove Loudness Sensor to analog port A0
 # SIG,NC,VCC,GND
-loudness_sensor = 0
-# sensorPin = A0;
-pot = mraa.Aio(0)   
 
+# pot = mraa.Aio(0)
+# while True:
+#     try:
+#         sensor_value = mraa.Aio(0)
+#         potVal = pot.read()
+#         potVal2 = potVal / 1024.0
+#         print potVal2
 
-while True:
-    try:
-        # Read the sound level
-        # sensor_value = grovepi.analogRead(loudness_sensor)
-        # sensorValue = analogRead(A0);
-
-        # print "sensor_value =", sensorValue
-
-        potVal = float(pot.read())
-        print potVal
-
-        time.sleep(.5)
-
-    except IOError:
-        print "Error"
-
-
-
-        
- 
+#     except IOError:
+#         print "Error" 
